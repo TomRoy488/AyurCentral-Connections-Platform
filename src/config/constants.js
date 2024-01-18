@@ -8,12 +8,12 @@ export const NAVLINKS = [
 export const data = {
   links: [
     {
-      created_at: "2024-01-12T05:35:53+0000",
+      createdAt: "2024-01-12T05:35:53+0000",
       id: "bit.ly/41XwGyO",
       link: "https://bit.ly/41XwGyO",
       long_url: "https://sankranti.ayurcentralonline.com/",
       title: "Sankranti",
-      
+      clicks: 2,
 
       engagements: [
         {
@@ -51,11 +51,13 @@ export const data = {
       qr_code: "",
     },
     {
-      created_at: "2023-12-26T18:24:53+0000",
+      createdAt: "2023-12-26T18:24:53+0000",
       id: "bit.ly/4aNKTm7",
       link: "https://bit.ly/4aNKTm7",
       long_url: "https://newyearoffer.ayurcentralonline.com/",
       title: "New Year Offer",
+      clicks: 4,
+
       engagements: [
         {
           date: "2024-01-13T00:00:00+0000",

@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { NAVLINKS } from "../config/constants";
-import { NavLink } from "react-router-dom";
 
 function AsideNavBar() {
-  const [activeLink, setActiveLink] = useState(0);
+  const { pathname } = useLocation();
   return (
     <nav className="  w-[16%] bg-white h-full px-[.75rem] border-e-[2px] border-solid border-[#e8ebf2] fixed left-0 top-0 bottom-0">
       <div className="nav-container">
@@ -24,12 +23,11 @@ function AsideNavBar() {
             {NAVLINKS.map((link, key) => (
               <li
                 className={`nav-item  border-s-[.2rem] border-solid cursor-pointer w-full  rounded-[.2rem]   ${
-                  key === activeLink
+                  link.href === pathname
                     ? "bg-[#edf2ff] text-[#0c3ebb] border-[#0c3ebb]"
                     : " border-[#ffffff]"
                 } hover:text-[#0c3ebb] hover:border-[#0c3ebb] `}
                 key={key + link?.label}
-                onClick={() => setActiveLink(key)}
               >
                 <NavLink
                   className="nav-link p-[.5rem] ps-[.75rem]  font-semibold w-full flex"

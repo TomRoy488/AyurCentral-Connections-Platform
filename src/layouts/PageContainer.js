@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Analytics from "../pages/Analytics";
 import CreateQRCode from "../pages/CreateQRCode";
-import DashBoard from "../pages/DashBoard";
-import LinkDetails from "../pages/LinkDetails";
-import Links from "../pages/Links";
-import QRCodes from "../pages/QRCodes";
 
+import QRCodes from "../pages/QRCodes";
+import { data } from "../config/constants";
+const { links: linklist } = data;
 function PageContainer() {
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState([...linklist]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -22,7 +21,7 @@ function PageContainer() {
           // "http://localhost:8000/api/urls/shorts"
           "https://bitly-shorturl.onrender.com/api/urls/shorts"
         );
-        // console.log("response", response);
+        console.log("response", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -42,34 +41,7 @@ function PageContainer() {
   }, []);
 
   return (
-    <main className="h-full main-page-container p-[2rem] pt-[1rem]  bg-[#f4f6fa] grow">
-      <Routes>
-        <Route
-          index
-          element={<DashBoard links={links} setSelectPage={setSelectPage} />}
-        />
-        <Route
-          path="/links"
-          element={
-            <Links
-              setSelectPage={setSelectPage}
-              links={links}
-              isLoading={loading}
-            />
-          }
-        />
-
-        <Route
-          path="links/:id"
-          element={<LinkDetails pageData={linkDetails} />}
-        />
-
-        <Route path="/qrcodes" element={<QRCodes links={links} />} />
-        <Route path="/createQRCode" element={<CreateQRCode />} />
-
-        <Route path="/analytics" element={<Analytics />} />
-      </Routes>
-    </main>
+    <h1>hi</h1>
   );
 }
 

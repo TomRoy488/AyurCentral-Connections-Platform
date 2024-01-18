@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { QRCode, ColorPicker } from "antd";
 import { Link } from "react-router-dom";
-import { toPng,toSvg } from "html-to-image";
+import { toPng, toSvg } from "html-to-image";
 function CreateQRCode() {
   const [urlValue, setUrlValue] = useState("");
   const [titleValue, setTitleValue] = useState("");
@@ -53,17 +53,14 @@ function CreateQRCode() {
     const link = document.createElement("a");
     link.download = `${
       titleValue.toLowerCase().replaceAll(" ", "") || "qrcode"
-    }.svg`;
+    }.png`;
     link.href = dataUrl;
 
     return link;
   };
-/* htmlToImage
-  .toSvg(document.getElementById("my-node"), { filter: filter })
-  .then(function (dataUrl) {
-  }); */
+
   const saveQRcodeAsPng = (titleValue) => {
-    toSvg(qrcodeSave.current, { cacheBust: false })
+    toPng(qrcodeSave.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = downloadQRCode(dataUrl, titleValue);
         link.click();
@@ -74,6 +71,7 @@ function CreateQRCode() {
       });
   };
 
+  //helper fn
   const saveQRcodeAsBlob = () => {
     toPng(qrcodeSave.current, { cacheBust: false })
       .then((dataUrl) => {
@@ -102,7 +100,8 @@ function CreateQRCode() {
   }, [urlValue, titleValue, codeColorHex, bgColorHex, selectedImage]);
 
   const handleSubmit = () => {
-    const apiEndpoint = "https://bitly-shorturl.onrender.com/api/bitlyurl/generator";
+    const apiEndpoint =
+      "https://bitly-shorturl.onrender.com/api/bitlyurl/generator";
     // "http://localhost:8000/api/bitlyurl/generator";
     const data = {
       long_url: urlValue,
@@ -276,18 +275,20 @@ function CreateQRCode() {
           >
             <p className=" font-semibold">Preview</p>
             <div
-              className={`qrcode-img ${!urlValue && "blur-[6px]"}`}
+              className={`qrcode-img ${
+                !urlValue && "blur-[6px]"
+              } w-[300px] h-[300px]`}
               ref={qrcodeSave}
             >
               {!urlValue ? (
-                <QRCode value={"-"} bordered={false} size="175" />
+                <QRCode value={"-"} bordered={false} size="180" />
               ) : (
                 <QRCode
                   value={urlValue}
                   color={hexCodeColor}
                   bgColor={hexBgColor}
                   icon={selectedImage}
-                  size="175"
+                  size="180"
                   bordered={false}
                 />
               )}
