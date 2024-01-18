@@ -53,14 +53,14 @@ function CreateQRCode() {
     const link = document.createElement("a");
     link.download = `${
       titleValue.toLowerCase().replaceAll(" ", "") || "qrcode"
-    }.png`;
+    }.svg`;
     link.href = dataUrl;
 
     return link;
   };
 
   const saveQRcodeAsPng = (titleValue) => {
-    toPng(qrcodeSave.current, { cacheBust: false })
+    toSvg(qrcodeSave.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = downloadQRCode(dataUrl, titleValue);
         link.click();
@@ -101,8 +101,8 @@ function CreateQRCode() {
 
   const handleSubmit = () => {
     const apiEndpoint =
-      "https://bitly-shorturl.onrender.com/api/bitlyurl/generator";
-    // "http://localhost:8000/api/bitlyurl/generator";
+      // "https://bitly-shorturl.onrender.com/api/bitlyurl/generator";
+    "http://localhost:8000/api/bitlyurl/generator";
     const data = {
       long_url: urlValue,
       title: titleValue,
