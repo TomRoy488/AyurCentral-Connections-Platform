@@ -1,23 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import CreateQRCode from "./pages/CreateQRCode";
 import QRCodes from "./pages/QRCodes";
 
 // pages
-import DashBoard from "./pages/Dashboard/Index";
-import Links from "./pages/Links/Index";
-import LinkDetails from "./pages/LinkDetails/Index";
 import Analytics from "./pages/Analytics/Index";
+import CreateQRCode from "./pages/CreateQRcode/Index";
+import CreateShortLink from "./pages/CreateShortLink";
+import CustomizeQrcode from "./pages/CustomizeQrcode/Index";
+import DashBoard from "./pages/Dashboard/Index";
+import LinkDetails from "./pages/LinkDetails/Index";
+import Links from "./pages/Links/Index";
 
 // text data
 import { data } from "./config/constants";
+
 const { links: linklist } = data;
 
 function PublicRoute() {
   const [links, setLinks] = useState([...linklist]);
   const [loading, setLoading] = useState(false);
   const [selectPage, setSelectPage] = useState("");
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
 
   const linkDetails = links.find((link) => link?.id === selectPage);
   return (
@@ -41,11 +45,23 @@ function PublicRoute() {
 
           <Route
             path="links/:id"
-            element={<LinkDetails pageData={linkDetails} />}
+            element={
+              <LinkDetails pageData={linkDetails} setQrCodeUrl={setQrCodeUrl} />
+            }
           />
 
           <Route path="/qrcodes" element={<QRCodes links={links} />} />
-          <Route path="/createQRCode" element={<CreateQRCode />} />
+          <Route
+            path="/createQRCode"
+            element={
+              <CreateQRCode setQrCodeUrl={setQrCodeUrl} qrCodeUrl={qrCodeUrl} />
+            }
+          />
+          <Route
+            path="/customizeQRCode"
+            element={<CustomizeQrcode qrCodeUrl={qrCodeUrl} />}
+          />
+          <Route path="/createShortLinks" element={<CreateShortLink />} />
 
           <Route path="/analytics" element={<Analytics />} />
         </Routes>

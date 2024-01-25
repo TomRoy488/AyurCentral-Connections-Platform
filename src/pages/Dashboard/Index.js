@@ -10,7 +10,7 @@ function DashBoard({ links, setSelectPage }) {
           Connections Dashboard
         </MainTitle>
       </div>
-      <div className="stats-holder flex w-full gap-[2rem] ">
+      <div className="stats-holder flex w-full gap-[2rem] flex-col lg:flex-row ">
         <Stats links={links} />
         <TopLinks links={sortLink} setSelectPage={setSelectPage} />
       </div>

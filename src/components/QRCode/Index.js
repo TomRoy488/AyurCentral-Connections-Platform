@@ -1,12 +1,17 @@
 import { QRCode } from "antd";
 
-function QRCodeMaker({ url }) {
+function QRCodeMaker({
+  url,
+  bgColor = "#ffffff",
+  codeColor = "#000000",
+  qrCodeLogo,
+}) {
   return (
     <QRCode
-      value={url || "unknown"}
-      /* color={hexCodeColor}
-      bgColor={hexBgColor}
-      icon={selectedImage} */
+      value={url || "-"}
+      color={codeColor}
+      bgColor={bgColor}
+      icon={qrCodeLogo}
       size="180"
       bordered={false}
     />

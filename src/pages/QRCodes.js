@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function formatDate(dateString) {
   const options = { year: "numeric", month: "short", day: "numeric" };
@@ -10,7 +10,6 @@ function formatDate(dateString) {
 }
 
 function QRCodes({ links }) {
-  const navigate = useNavigate();
 
   return (
     <div className="link-container">

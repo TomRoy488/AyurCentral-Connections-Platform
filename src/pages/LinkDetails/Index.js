@@ -1,29 +1,30 @@
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toPng, toSvg } from "html-to-image";
-
 import UtilController from "../../utils/Utilcontroller";
 import Stats from "../../components/Stats/Index";
 import LinkHeader from "../../components/LinkHeader/Index";
 import QRCodeMaker from "../../components/QRCode/Index";
-function LinkDetails({ pageData }) {
+import MainTitle from "../../components/MainTitle/Index";
+
+function LinkDetails({ pageData, setQrCodeUrl }) {
   const qrcodeSave = useRef(null);
+  const navigate = useNavigate();
 
   const downloadQRCode = (dataUrl, titleValue) => {
     const link = document.createElement("a");
     link.download = `${
-      titleValue.toLowerCase().replaceAll(" ", "") || "qrcode"
+      titleValue.toLowerCase().replaceAll(" ", "") + "Qrcode" || "qrcode"
     }.svg`;
     link.href = dataUrl;
     return link;
   };
 
-  const saveQRcodeAsPng = (titleValue) => {
-    toPng(qrcodeSave.current, { cacheBust: false })
+  const saveQRcodeAsSvg = (titleValue) => {
+    toSvg(qrcodeSave.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = downloadQRCode(dataUrl, titleValue);
         link.click();
-        // setDownloaded(true);
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +35,6 @@ function LinkDetails({ pageData }) {
   const saveQRcodeAsBlob = (titleValue) => {
     toPng(qrcodeSave.current, { cacheBust: false })
       .then((dataUrl) => {
-        // const link = downloadQRCode(dataUrl, titleValue);
         fetch(dataUrl)
           .then((response) => response.blob())
           .then((blob) => {
@@ -43,7 +43,6 @@ function LinkDetails({ pageData }) {
                 "image/png": blob,
               }),
             ]);
-            // setCopied(true);
           })
           .catch((error) => {
             console.error("Error fetching or copying image:", error);
@@ -53,7 +52,10 @@ function LinkDetails({ pageData }) {
         console.log(err);
       });
   };
-
+  const onCustomizeQRCode = () => {
+    setQrCodeUrl(pageData?.link);
+    navigate("/customizeQRCode");
+  };
   return (
     <div className="link-details-container flex flex-col gap-[1.5rem]">
       <div className="back-btn font-semibold">
@@ -68,7 +70,9 @@ function LinkDetails({ pageData }) {
         <Stats links={[pageData]} />
 
         <div className="link-qrcode w-full  bg-white p-[1rem] rounded-[.5rem]">
-          <h3 className="text-[1.5rem] font-bold">QR Code</h3>
+          <MainTitle tag="h2" titleStyle="text-[1.5rem]">
+            QR Code
+          </MainTitle>
           <div className="stats-list flex gap-[1.5rem] mt-[1rem]">
             <div
               className="qrcode-holder bg-white w-[200px] h-[200px]"
@@ -79,15 +83,21 @@ function LinkDetails({ pageData }) {
             <div className="qrcode-btns flex flex-col gap-[1rem]  justify-center ">
               <button
                 className="font-semibold bg-[#0c3ebb]   text-white   py-[.4rem] px-[1rem] rounded-[.2rem]"
-                onClick={() => saveQRcodeAsBlob(`${pageData?.title}QrCode`)}
+                onClick={onCustomizeQRCode}
               >
-                {"Copy"}
+                Customize QR Code
+              </button>
+              <button
+                className="font-semibold bg-[#0c3ebb]   text-white   py-[.4rem] px-[1rem] rounded-[.2rem]"
+                onClick={saveQRcodeAsBlob}
+              >
+                Copy
               </button>
               <button
                 className="font-semibold bg-[#0c3ebb] text-white  py-[.4rem] px-[1rem] rounded-[.2rem]"
-                onClick={() => saveQRcodeAsPng(`${pageData?.title}QrCode`)}
+                onClick={() => saveQRcodeAsSvg(pageData?.title)}
               >
-                {"Download ▼"}
+                Download ▼
               </button>
             </div>
           </div>
