@@ -7,10 +7,41 @@ function CreateShortLink() {
   const [titleValue, setTitleValue] = useState("");
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate(-1);
-  }
+    const apiEndpoint =
+      "https://bitly-shorturl.onrender.com/bitlyurl/generator";
+
+    const data = {
+      long_url: urlValue,
+      title: titleValue,
+    };
+
+    try {
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log("API Response:", responseData);
+    } catch (error) {
+      // Handle errors here
+      console.error("Error:", error.message || "Something went wrong");
+    } finally {
+      navigate(-1);
+    }
+  };
+
+  // https://bitly-shorturl.onrender.com/bitlyurl/generator
+
   return (
     <div className="CreateQRCode-container h-full flex bg-[#f4f6fa]">
       <div className="qrcode-options h-full relative w-[50%]  grid  pe-[2rem]">

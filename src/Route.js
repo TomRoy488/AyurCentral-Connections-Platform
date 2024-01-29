@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import QRCodes from "./pages/QRCodes";
@@ -15,15 +15,40 @@ import Links from "./pages/Links/Index";
 // text data
 import { data } from "./config/constants";
 
-const { links: linklist } = data;
+// const { links: linklist } = data;
 
 function PublicRoute() {
-  const [links, setLinks] = useState([...linklist]);
+  const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectPage, setSelectPage] = useState("");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
 
   const linkDetails = links.find((link) => link?.id === selectPage);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          // "https://bitly-shorturl.onrender.com/qrcode/scan/links"
+          "https://bitly-shorturl.onrender.com/urls/shorts"
+        );
+        console.log("response", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        console.log(result);
+        setLinks(result);
+      } catch (error) {
+        console.log(error);
+        // setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <main className="h-full main-page-container p-[2rem] pt-[1rem]  bg-[#f4f6fa] grow">

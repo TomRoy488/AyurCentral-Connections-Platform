@@ -1,19 +1,15 @@
 import MainTitle from "../../../components/MainTitle/Index";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 function QRCodeDetails({
   urlValue,
   titleValue,
   setTitleValue,
   setUrlValue,
   setQrCodeUrl,
+  handleSubmit,
 }) {
-  const navigate = useNavigate();
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setQrCodeUrl(urlValue);
-    navigate("/customizeQRCode");
-  }
+  
   return (
     <form
       className="url-details flex flex-col gap-[1.5rem] relative  h-full"

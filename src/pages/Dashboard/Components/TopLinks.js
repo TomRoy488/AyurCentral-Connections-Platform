@@ -20,7 +20,7 @@ function TopLinks({ links, setSelectPage }) {
                     ? "border-b-[2px] border-solid border-[#e8ebf2] "
                     : ""
                 } pb-[.5rem]`}
-                key={link?.id}
+                key={key}
               >
                 <h4
                   className="font-semibold my-[.5rem] cursor-pointer flex w-fit hover:underline hover:decoration-solid "

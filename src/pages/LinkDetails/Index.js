@@ -8,6 +8,7 @@ import QRCodeMaker from "../../components/QRCode/Index";
 import MainTitle from "../../components/MainTitle/Index";
 
 function LinkDetails({ pageData, setQrCodeUrl }) {
+  console.log(pageData)
   const qrcodeSave = useRef(null);
   const navigate = useNavigate();
 
@@ -78,7 +79,7 @@ function LinkDetails({ pageData, setQrCodeUrl }) {
               className="qrcode-holder bg-white w-[200px] h-[200px]"
               ref={qrcodeSave}
             >
-              <QRCodeMaker url={pageData?.link} />
+              <QRCodeMaker url={pageData?.qrCodeLink} />
             </div>
             <div className="qrcode-btns flex flex-col gap-[1rem]  justify-center ">
               <button
