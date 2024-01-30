@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+
 import { addImage, deleteImage, removeImage } from "../../../assets";
 import MainTitle from "../../../components/MainTitle/Index";
 function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
@@ -23,6 +25,43 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
 
       const data = await response.json();
       console.log(data);
+      // setCreateImg(data);
+    } catch (error) {
+      // Handle errors appropriately, e.g., show an error message
+      console.error("Error uploading image:", error.message);
+    }
+  };
+
+  const handleSubmit2 = async (e) => {
+    e.preventDefault();
+    console.log("file", filesselect);
+    try {
+      const formData = new FormData();
+      formData.append("image", filesselect);
+      // const response = await fetch(
+      //   "https://bitly-shorturl.onrender.com/imageupload",
+      //   {
+      //     method: "POST",
+      //     body: formData,
+      //   }
+      // );
+
+      // Add the axios method for fetching the api
+      const response = await axios.post(
+        "https://bitly-shorturl.onrender.com/imageupload",
+        formData
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to upload image. Status: ${response.status}`);
+      }
+
+      // Updated Data for getting response
+      const imgData = response.data;
+      console.log("imgData", imgData);
+
+      // const data = await response.json();
+      // console.log(data);
       // setCreateImg(data);
     } catch (error) {
       // Handle errors appropriately, e.g., show an error message
@@ -76,7 +115,7 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
         Add a logo
       </MainTitle>
       <div className="image-selection flex h-fit gap-[1rem] items-center  pt-[.8rem]">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit2}>
           <label
             htmlFor="logoUpload"
             className=" cursor-pointer text-[3rem] bg-white flex  justify-center items-center rounded-[.5rem] w-[4rem] h-[4rem] text-[#273144] border-[3px]  p-[.5rem]"
