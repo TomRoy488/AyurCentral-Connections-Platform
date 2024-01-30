@@ -5,13 +5,16 @@ function Stats({ links }) {
   const { totalEngagement, totalScans, totalclicks } = useMemo(() => {
     return links.reduce(
       (acc, link) => {
-        if (link?.clicks) {
+        if (link?.clicks || link?.qrScanCount) {
           return {
             ...acc,
             totalclicks: acc.totalclicks + link.clicks,
-            totalEngagement: acc.totalEngagement + link.clicks,
+            totalScans: acc.totalScans + link.qrScanCount,
+            totalEngagement:
+              acc.totalEngagement + link.clicks + link.qrScanCount,
           };
         }
+
         return acc;
       },
       {
@@ -21,6 +24,7 @@ function Stats({ links }) {
       }
     );
   }, [links]);
+  // console.log(totalEngagement, totalScans, totalclicks);
   return (
     <div className="stats-data w-full  bg-white p-[1rem] rounded-[.5rem]">
       <MainTitle tag="h2" titleStyle="text-[1.5rem]">

@@ -107,7 +107,7 @@ body {
   background-color: #ffffff;
   justify-content: center;
   width: 100%;
-  padding: 0rem 0.8rem .8rem;
+  padding: 0rem 0.8rem 0.8rem;
 }
 .color-box {
   display: flex;
@@ -128,4 +128,11 @@ body {
 .colorCode input {
   padding: 0rem;
   font-size: 1.2rem;
+}
+
+.logo-delete-icon {
+  display: none;
+}
+.logo-list-item:hover .logo-delete-icon {
+  display: block;
 }

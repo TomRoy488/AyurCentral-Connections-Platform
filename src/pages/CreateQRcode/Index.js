@@ -13,7 +13,8 @@ function CreateQRCode({ setQrCodeUrl, qrCodeUrl }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiEndpoint =
-      "https://bitly-shorturl.onrender.com/bitlyqrcode/generator";
+      // "https://bitly-shorturl.onrender.com/bitlyqrcode/generator";
+      "https://bitly-shorturl.onrender.com/bitlyurl/generator";
 
     const data = {
       long_url: urlValue,
@@ -40,7 +41,7 @@ function CreateQRCode({ setQrCodeUrl, qrCodeUrl }) {
       console.error("Error:", error.message || "Something went wrong");
     } finally {
       setQrCodeUrl(urlValue);
-      // navigate("/customizeQRCode");
+      navigate("/customizeQRCode");
     }
   };
 

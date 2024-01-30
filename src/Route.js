@@ -16,7 +16,6 @@ import Links from "./pages/Links/Index";
 import { data } from "./config/constants";
 
 // const { links: linklist } = data;
-
 function PublicRoute() {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,7 +28,8 @@ function PublicRoute() {
       try {
         const response = await fetch(
           // "https://bitly-shorturl.onrender.com/qrcode/scan/links"
-          "https://bitly-shorturl.onrender.com/urls/shorts"
+          // "https://bitly-shorturl.onrender.com/urls/shorts"
+          "https://bitly-shorturl.onrender.com/short/urls"
         );
         console.log("response", response);
         if (!response.ok) {

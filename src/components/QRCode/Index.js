@@ -13,6 +13,7 @@ function QRCodeMaker({
       bgColor={bgColor}
       icon={qrCodeLogo}
       size="180"
+      // iconSize={40}
       bordered={false}
     />
   );

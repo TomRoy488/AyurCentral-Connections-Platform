@@ -6,7 +6,7 @@ import UtilController from "../../utils/Utilcontroller";
 function Links({ setSelectPage, links, isLoading }) {
   const navigate = useNavigate();
   return (
-    <div className="link-container">
+    <div className="link-container pb-[2rem]">
       <div
         className="header-holder dashbrd-header py-[2rem] flex
            items-center justify-between "
@@ -36,7 +36,7 @@ function Links({ setSelectPage, links, isLoading }) {
                 isLink={true}
               >
                 <span className="font-semibold text-[.8rem]  text-[#046923]">
-                  {link?.clicks} Engagements
+                  {link?.clicks + link?.qrScanCount} Engagements
                 </span>
                 <span>
                   Created: {UtilController.formatdate(link?.createdAt)}
