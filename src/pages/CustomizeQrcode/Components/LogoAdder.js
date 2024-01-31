@@ -6,7 +6,6 @@ import axios from "axios";
 import { addImage, deleteImage, removeImage } from "../../../assets";
 import MainTitle from "../../../components/MainTitle/Index";
 function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
-  console.log(selectedImage);
 
   const upLoadImage = async (fileselect) => {
     try {
