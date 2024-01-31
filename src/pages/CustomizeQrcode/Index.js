@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import MainTitle from "../../components/MainTitle/Index";
@@ -11,7 +11,6 @@ function CustomizeQrcode({ qrCodeUrl }) {
   const [codeColorHex, setCodeColorHex] = useState("#000000");
   const [bgColorHex, setBgColorHex] = useState("#ffffff");
   const [qrCodeLogo, setQrCodeLogo] = useState(null);
-
   const navigate = useNavigate();
 
   const toHexString = (color) =>
@@ -19,21 +18,46 @@ function CustomizeQrcode({ qrCodeUrl }) {
 
   const hexCodeColor = useMemo(() => toHexString(codeColorHex), [codeColorHex]);
   const hexBgColor = useMemo(() => toHexString(bgColorHex), [bgColorHex]);
+
   const onCancel = (e) => {
     e.preventDefault();
     setBgColorHex("#ffffff");
     setCodeColorHex("#000000");
     setQrCodeLogo(null);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          // "https://bitly-shorturl.onrender.com/qrcode/scan/links"
+          // "https://bitly-shorturl.onrender.com/urls/shorts"
+          "https://bitly-shorturl.onrender.com/image/allimages"
+        );
+        console.log("response", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        console.log(result, "result");
+        const imageArray = await result.reverse();
+        setSelectedImage(imageArray);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [qrCodeLogo]);
   return (
-    <div className="Customize-container h-full flex bg-[#f4f6fa]">
+    <div className="Customize-container w-full h-full flex bg-[#f4f6fa]">
       <div className="qrcode-options h-full relative w-full  grid  pe-[2rem]">
         <div className="header-holder dashbrd-header  py-[2rem]">
           <MainTitle tag="h2" titleStyle="text-[2rem]">
             Customize your QR Code
           </MainTitle>
         </div>
-        <div className="qrcode-details url-details flex flex-col gap-[1.5rem] relative">
+        <div className="qrcode-details w-full url-details flex flex-col gap-[1.5rem] relative">
           <QrcodeEdit
             codeColorHex={codeColorHex}
             setCodeColorHex={setCodeColorHex}

@@ -1,50 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
 
+// https://bitly-shorturl.onrender.com/image/allimages
+
 import { addImage, deleteImage, removeImage } from "../../../assets";
 import MainTitle from "../../../components/MainTitle/Index";
 function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
-  const [filesselect, setFile] = useState({});
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("file", filesselect);
+  console.log(selectedImage);
+
+  const upLoadImage = async (fileselect) => {
     try {
       const formData = new FormData();
-      formData.append("image", filesselect);
-      const response = await fetch(
-        "https://bitly-shorturl.onrender.com/imageupload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to upload image. Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log(data);
-      // setCreateImg(data);
-    } catch (error) {
-      // Handle errors appropriately, e.g., show an error message
-      console.error("Error uploading image:", error.message);
-    }
-  };
-
-  const handleSubmit2 = async (e) => {
-    e.preventDefault();
-    console.log("file", filesselect);
-    try {
-      const formData = new FormData();
-      formData.append("image", filesselect);
-      // const response = await fetch(
-      //   "https://bitly-shorturl.onrender.com/imageupload",
-      //   {
-      //     method: "POST",
-      //     body: formData,
-      //   }
-      // );
+      formData.append("image", fileselect);
 
       // Add the axios method for fetching the api
       const response = await axios.post(
@@ -52,16 +19,10 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
         formData
       );
 
-      if (!response.ok) {
-        throw new Error(`Failed to upload image. Status: ${response.status}`);
-      }
-
       // Updated Data for getting response
       const imgData = response.data;
-      console.log("imgData", imgData);
+      setQrCodeLogo(imgData.imageUrl);
 
-      // const data = await response.json();
-      // console.log(data);
       // setCreateImg(data);
     } catch (error) {
       // Handle errors appropriately, e.g., show an error message
@@ -71,8 +32,7 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    console.log("hi", file);
-    setFile((prevFile) => ({ ...prevFile, ...file }));
+
     if (!file) return alert("Please choosse one imager");
 
     // Check file size
@@ -93,29 +53,29 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
           );
           return;
         }
-        setQrCodeLogo(reader.result);
-        console.log(reader.result);
-        setSelectedImage([...selectedImage, reader.result]);
-        // "https://bitly-shorturl.onrender.com/short/urls";
-        // /imageupload
+        // setSelectedImage([...selectedImage, reader.result]);
       };
     };
+
+    upLoadImage(file);
 
     reader.readAsDataURL(file);
   };
 
   const handleDelete = (index) => {
     const updatedImages = selectedImage.slice();
-    updatedImages.splice(index, 1);
+    const d = updatedImages.splice(index, 1);
+    console.log(d,"updated")
     setSelectedImage(updatedImages);
+
   };
   return (
-    <div className="qr-destinatio qr-color-selection">
+    <div className="qr-destinatio w-full qr-color-selection">
       <MainTitle tag="h2" titleStyle="text-[1.5rem] font-semibold">
         Add a logo
       </MainTitle>
-      <div className="image-selection flex h-fit gap-[1rem] items-center  pt-[.8rem]">
-        <form onSubmit={handleSubmit2}>
+      <div className="image-selection  grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7  w-full h-fit gap-[1rem] items-center  pt-[.8rem] flex-wrap">
+        <form>
           <label
             htmlFor="logoUpload"
             className=" cursor-pointer text-[3rem] bg-white flex  justify-center items-center rounded-[.5rem] w-[4rem] h-[4rem] text-[#273144] border-[3px]  p-[.5rem]"
@@ -135,7 +95,6 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
             className="hidden"
             id="logoUpload"
           />
-          <button className="p-[.5rem] border-4 m-[.5rem]">submit</button>
         </form>
         <div
           className="w-[4rem] h-[4rem] text-[3rem]  text-[#273144] bg-white rounded-[.5rem]  border-[3px] flex justify-center flex-wrap items-center cursor-pointer  p-[.5rem]"
@@ -154,9 +113,13 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
             <div
               className=" logo-list-item w-[4rem] h-[4rem] bg-white rounded-[.5rem] p-[.2rem] flex justify-center items-center  text-[#273144] border-[3px] cursor-pointer relative"
               key={i}
-              onClick={() => setQrCodeLogo(img)}
+              onClick={() => setQrCodeLogo(img.imageUrl)}
             >
-              <img src={img} alt="Selected" className="w-full h-full" />
+              <img
+                src={img.imageUrl}
+                alt="Selected"
+                className="w-full h-full"
+              />
               <div
                 className=" logo-delete-icon w-[1.5rem] h-[1.5rem] absolute  bg-white rounded-[100%] p-[.3rem]  flex justify-center flex-wrap items-center cursor-pointer   top-[-.5rem] right-[-.5rem]"
                 onClick={() => handleDelete(i)}
