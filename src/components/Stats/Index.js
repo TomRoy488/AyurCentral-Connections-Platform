@@ -24,7 +24,6 @@ function Stats({ links }) {
       }
     );
   }, [links]);
-  // console.log(totalEngagement, totalScans, totalclicks);
   return (
     <div className="stats-data w-full  bg-white p-[1rem] rounded-[.5rem]">
       <MainTitle tag="h2" titleStyle="text-[1.5rem]">

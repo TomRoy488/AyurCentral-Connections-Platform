@@ -7,12 +7,12 @@ import QrcodeEdit from "./Components/QrcodeEdit";
 import QRcodePreview from "../../components/QrCodePreview/Index";
 
 function CustomizeQrcode({ qrCodeUrl }) {
-  const [selectedImage, setSelectedImage] = useState([]);
+  const [logoImageList, setLogoImageList] = useState([]);
+  const [deletedLogos, setdeletedLogos] = useState([]);
   const [codeColorHex, setCodeColorHex] = useState("#000000");
   const [bgColorHex, setBgColorHex] = useState("#ffffff");
   const [qrCodeLogo, setQrCodeLogo] = useState(null);
   const navigate = useNavigate();
-
   const toHexString = (color) =>
     typeof color === "string" ? color : color?.toHexString();
 
@@ -29,26 +29,30 @@ function CustomizeQrcode({ qrCodeUrl }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          // "https://bitly-shorturl.onrender.com/qrcode/scan/links"
-          // "https://bitly-shorturl.onrender.com/urls/shorts"
           "https://bitly-shorturl.onrender.com/image/allimages"
         );
-        console.log("response", response);
+        console.log(response);
+
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-
         const result = await response.json();
         console.log(result, "result");
-        const imageArray = await result.reverse();
-        setSelectedImage(imageArray);
+        const imageArray = await result.slice().reverse();
+        const removeDeletedImage = imageArray
+          .slice()
+          .filter((img) => !deletedLogos.includes(img._id));
+        setLogoImageList(removeDeletedImage);
+        console.log(qrCodeLogo)
+        
+
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, [qrCodeLogo]);
+  }, [qrCodeLogo, deletedLogos]);
   return (
     <div className="Customize-container w-full h-full flex bg-[#f4f6fa]">
       <div className="qrcode-options h-full relative w-full  grid  pe-[2rem]">
@@ -67,9 +71,11 @@ function CustomizeQrcode({ qrCodeUrl }) {
             hexCodeColor={hexCodeColor}
           />
           <LogoAdder
-            selectedImage={selectedImage}
-            setSelectedImage={setSelectedImage}
+            logoImageList={logoImageList}
+            setLogoImageList={setLogoImageList}
             setQrCodeLogo={setQrCodeLogo}
+            deletedLogos={deletedLogos}
+            setdeletedLogos={setdeletedLogos}
           />
           <div className="code-btns bottom-0 w-full py-[1rem] pb-[2rem flex justify-between absolute bottom-0 left-0  right-0">
             <button

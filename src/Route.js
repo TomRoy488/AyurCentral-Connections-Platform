@@ -31,7 +31,6 @@ function PublicRoute() {
           // "https://bitly-shorturl.onrender.com/urls/shorts"
           "https://bitly-shorturl.onrender.com/short/urls"
         );
-        console.log("response", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

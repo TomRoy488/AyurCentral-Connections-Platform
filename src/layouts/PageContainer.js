@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import Analytics from "../pages/Analytics";
 import CreateQRCode from "../pages/CreateQRCode";
 
 import QRCodes from "../pages/QRCodes";
@@ -21,7 +20,6 @@ function PageContainer() {
           // "http://localhost:8000/api/urls/shorts"
           "https://bitly-shorturl.onrender.com/api/urls/shorts"
         );
-        console.log("response", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

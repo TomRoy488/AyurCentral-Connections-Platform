@@ -8,7 +8,6 @@ import QRCodeMaker from "../../components/QRCode/Index";
 import MainTitle from "../../components/MainTitle/Index";
 
 function LinkDetails({ pageData, setQrCodeUrl }) {
-  console.log(pageData)
   const qrcodeSave = useRef(null);
   const navigate = useNavigate();
 

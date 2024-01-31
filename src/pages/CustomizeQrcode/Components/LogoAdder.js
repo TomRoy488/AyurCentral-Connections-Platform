@@ -5,8 +5,13 @@ import axios from "axios";
 
 import { addImage, deleteImage, removeImage } from "../../../assets";
 import MainTitle from "../../../components/MainTitle/Index";
-function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
-
+function LogoAdder({
+  logoImageList,
+  setLogoImageList,
+  setQrCodeLogo,
+  deletedLogos,
+  setdeletedLogos,
+}) {
   const upLoadImage = async (fileselect) => {
     try {
       const formData = new FormData();
@@ -52,7 +57,6 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
           );
           return;
         }
-        // setSelectedImage([...selectedImage, reader.result]);
       };
     };
 
@@ -62,11 +66,10 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
   };
 
   const handleDelete = (index) => {
-    const updatedImages = selectedImage.slice();
-    const d = updatedImages.splice(index, 1);
-    console.log(d,"updated")
-    setSelectedImage(updatedImages);
-
+    const updatedImages = logoImageList.slice();
+    const [deletedID] = updatedImages.splice(index, 1);
+    setdeletedLogos([...deletedLogos, deletedID._id]);
+    setQrCodeLogo((url) => (url === deletedID.imageUrl ? null : url));
   };
   return (
     <div className="qr-destinatio w-full qr-color-selection">
@@ -107,17 +110,17 @@ function LogoAdder({ selectedImage, setSelectedImage, setQrCodeLogo }) {
             />
           </div>
         </div>
-        {selectedImage &&
-          selectedImage?.map((img, i) => (
+        {logoImageList &&
+          logoImageList?.map((img, i) => (
             <div
               className=" logo-list-item w-[4rem] h-[4rem] bg-white rounded-[.5rem] p-[.2rem] flex justify-center items-center  text-[#273144] border-[3px] cursor-pointer relative"
               key={i}
-              onClick={() => setQrCodeLogo(img.imageUrl)}
             >
               <img
                 src={img.imageUrl}
                 alt="Selected"
                 className="w-full h-full"
+                onClick={() => setQrCodeLogo(img.imageUrl)}
               />
               <div
                 className=" logo-delete-icon w-[1.5rem] h-[1.5rem] absolute  bg-white rounded-[100%] p-[.3rem]  flex justify-center flex-wrap items-center cursor-pointer   top-[-.5rem] right-[-.5rem]"
