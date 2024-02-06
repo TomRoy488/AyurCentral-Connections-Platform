@@ -7,7 +7,6 @@ import { addImage, deleteImage, removeImage } from "../../../assets";
 import MainTitle from "../../../components/MainTitle/Index";
 function LogoAdder({
   logoImageList,
-  setLogoImageList,
   setQrCodeLogo,
   deletedLogos,
   setdeletedLogos,

@@ -53,7 +53,7 @@ function LinkDetails({ pageData, setQrCodeUrl }) {
       });
   };
   const onCustomizeQRCode = () => {
-    setQrCodeUrl(pageData?.link);
+    setQrCodeUrl(pageData?.qrCodeLink);
     navigate("/customizeQRCode");
   };
   return (

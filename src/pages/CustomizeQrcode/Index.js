@@ -6,7 +6,7 @@ import LogoAdder from "./Components/LogoAdder";
 import QrcodeEdit from "./Components/QrcodeEdit";
 import QRcodePreview from "../../components/QrCodePreview/Index";
 
-function CustomizeQrcode({ qrCodeUrl }) {
+function CustomizeQrcode({ qrCodeUrl, pageData }) {
   const [logoImageList, setLogoImageList] = useState([]);
   const [deletedLogos, setdeletedLogos] = useState([]);
   const [codeColorHex, setCodeColorHex] = useState("#000000");
@@ -43,9 +43,7 @@ function CustomizeQrcode({ qrCodeUrl }) {
           .slice()
           .filter((img) => !deletedLogos.includes(img._id));
         setLogoImageList(removeDeletedImage);
-        console.log(qrCodeLogo)
-        
-
+        console.log(qrCodeLogo);
       } catch (error) {
         console.log(error);
       }
@@ -102,7 +100,7 @@ function CustomizeQrcode({ qrCodeUrl }) {
         </div>
       </div>
       <QRcodePreview
-        urlValue={qrCodeUrl}
+        urlValue={pageData?.qrCodeLink}
         hexBgColor={hexBgColor}
         hexCodeColor={hexCodeColor}
         qrCodeLogo={qrCodeLogo}

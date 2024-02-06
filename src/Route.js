@@ -23,6 +23,7 @@ function PublicRoute() {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
 
   const linkDetails = links.find((link) => link?.id === selectPage);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -83,7 +84,9 @@ function PublicRoute() {
           />
           <Route
             path="/customizeQRCode"
-            element={<CustomizeQrcode qrCodeUrl={qrCodeUrl} />}
+            element={
+              <CustomizeQrcode qrCodeUrl={qrCodeUrl} pageData={linkDetails} />
+            }
           />
           <Route path="/createShortLinks" element={<CreateShortLink />} />
 
