@@ -5,7 +5,7 @@ import MainTitle from "../../components/MainTitle/Index";
 import QRCodeDetails from "./Components/QRCodeDetails";
 import { useNavigate } from "react-router-dom";
 
-function CreateQRCode({ setQrCodeUrl, qrCodeUrl }) {
+function CreateQRCode({ setSelectPage }) {
   const [urlValue, setUrlValue] = useState("");
   const [titleValue, setTitleValue] = useState("");
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ function CreateQRCode({ setQrCodeUrl, qrCodeUrl }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiEndpoint =
-      // "https://bitly-shorturl.onrender.com/bitlyqrcode/generator";
       "https://bitly-shorturl.onrender.com/bitlyurl/generator";
 
     const data = {
@@ -29,18 +28,17 @@ function CreateQRCode({ setQrCodeUrl, qrCodeUrl }) {
         },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const responseData = await response.json();
-      console.log("API Response:", responseData);
+      setSelectPage(responseData?.id);
     } catch (error) {
       // Handle errors here
       console.error("Error:", error.message || "Something went wrong");
     } finally {
-      setQrCodeUrl(urlValue);
+
       navigate("/customizeQRCode");
     }
   };
@@ -59,12 +57,11 @@ function CreateQRCode({ setQrCodeUrl, qrCodeUrl }) {
             titleValue={titleValue}
             setTitleValue={setTitleValue}
             setUrlValue={setUrlValue}
-            setQrCodeUrl={setQrCodeUrl}
             handleSubmit={handleSubmit}
           />
         </div>
       </div>
-      <QRcodePreview urlValue={qrCodeUrl} isBlur={true} />
+      <QRcodePreview urlValue={urlValue} isBlur={true} />
     </div>
   );
 }

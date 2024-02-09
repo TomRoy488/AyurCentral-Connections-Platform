@@ -1,7 +1,5 @@
-import { useState } from "react";
 import axios from "axios";
 
-// https://bitly-shorturl.onrender.com/image/allimages
 
 import { addImage, deleteImage, removeImage } from "../../../assets";
 import MainTitle from "../../../components/MainTitle/Index";
@@ -25,10 +23,7 @@ function LogoAdder({
       // Updated Data for getting response
       const imgData = response.data;
       setQrCodeLogo(imgData.imageUrl);
-
-      // setCreateImg(data);
     } catch (error) {
-      // Handle errors appropriately, e.g., show an error message
       console.error("Error uploading image:", error.message);
     }
   };
@@ -58,9 +53,7 @@ function LogoAdder({
         }
       };
     };
-
     upLoadImage(file);
-
     reader.readAsDataURL(file);
   };
 

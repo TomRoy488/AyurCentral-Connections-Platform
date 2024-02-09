@@ -2,7 +2,7 @@ import { useState } from "react";
 import MainTitle from "../../components/MainTitle/Index";
 import { Link, useNavigate } from "react-router-dom";
 
-function CreateShortLink() {
+function CreateShortLink({setSelectPage}) {
   const [urlValue, setUrlValue] = useState("");
   const [titleValue, setTitleValue] = useState("");
   const navigate = useNavigate();
@@ -31,16 +31,16 @@ function CreateShortLink() {
       }
 
       const responseData = await response.json();
-      console.log("API Response:", responseData);
+      setSelectPage(responseData?.id);
     } catch (error) {
       // Handle errors here
       console.error("Error:", error.message || "Something went wrong");
     } finally {
-      navigate(-1);
+      // navigate(-1);
+      navigate(`/links/${titleValue.toLowerCase().replaceAll(" ", "")}`);
     }
   };
 
-  // https://bitly-shorturl.onrender.com/bitlyurl/generator
 
   return (
     <div className="CreateQRCode-container h-full flex bg-[#f4f6fa]">

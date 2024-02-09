@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toPng, toSvg } from "html-to-image";
 import UtilController from "../../utils/Utilcontroller";
@@ -7,10 +7,9 @@ import LinkHeader from "../../components/LinkHeader/Index";
 import QRCodeMaker from "../../components/QRCode/Index";
 import MainTitle from "../../components/MainTitle/Index";
 
-function LinkDetails({ pageData, setQrCodeUrl }) {
+function LinkDetails({ pageData }) {
   const qrcodeSave = useRef(null);
   const navigate = useNavigate();
-
   const downloadQRCode = (dataUrl, titleValue) => {
     const link = document.createElement("a");
     link.download = `${
@@ -53,9 +52,9 @@ function LinkDetails({ pageData, setQrCodeUrl }) {
       });
   };
   const onCustomizeQRCode = () => {
-    setQrCodeUrl(pageData?.qrCodeLink);
     navigate("/customizeQRCode");
   };
+
   return (
     <div className="link-details-container flex flex-col gap-[1.5rem]">
       <div className="back-btn font-semibold">
@@ -78,7 +77,12 @@ function LinkDetails({ pageData, setQrCodeUrl }) {
               className="qrcode-holder bg-white w-[200px] h-[200px]"
               ref={qrcodeSave}
             >
-              <QRCodeMaker url={pageData?.qrCodeLink} />
+              <QRCodeMaker
+                url={pageData?.qrCodeLink}
+                bgColor={pageData?.bgColorHex}
+                codeColor={pageData?.codeHex}
+                qrCodeLogo={pageData?.imgUrl}
+              />
             </div>
             <div className="qrcode-btns flex flex-col gap-[1rem]  justify-center ">
               <button

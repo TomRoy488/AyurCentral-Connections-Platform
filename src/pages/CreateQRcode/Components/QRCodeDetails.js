@@ -5,7 +5,6 @@ function QRCodeDetails({
   titleValue,
   setTitleValue,
   setUrlValue,
-  setQrCodeUrl,
   handleSubmit,
 }) {
 

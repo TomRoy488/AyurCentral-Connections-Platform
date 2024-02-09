@@ -6,6 +6,8 @@ function QRCodeMaker({
   codeColor = "#000000",
   qrCodeLogo,
 }) {
+
+  
   return (
     <QRCode
       value={url || "-"}
